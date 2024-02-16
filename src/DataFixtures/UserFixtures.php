@@ -50,10 +50,13 @@ class UserFixtures extends Fixture
         $link1 = $this->getReference("link_1");
         $link2 = $this->getReference("link_2");
 
+        // Link
+        // ----------------------------------------------------------------------------------------
         $user->addLink($link1);
         $user->addLink($link2);
 
         // Add to database
+        // ----------------------------------------------------------------------------------------
         $manager->flush();
     }
 }

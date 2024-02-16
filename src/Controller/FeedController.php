@@ -32,14 +32,15 @@ use SimplePie\SimplePie;
 
 class FeedController extends AbstractController
 {
+    private $channels;
     private $em;
     private $feed;
-    private $channels;
     private $security;
 
     public function __construct(EntityManagerInterface $em, Security $security)
     {
         $this->em = $em;
+
         $this->security = $security;
 
         $this->feed = new SimplePie();
@@ -82,13 +83,14 @@ class FeedController extends AbstractController
             $existingLink = $this->em->getRepository(Link::class)
                 ->findOneBy(["link" => $newLink->getLink()]);
 
-            // Check if the rss link returns an xml file
+
             $this->feed->set_feed_url($newLink->getLink());
 
             if ($this->feed->init()) {
                 $isValidXml = true;
             }
 
+            // Check if the rss link returns an xml file
             if ($isValidXml) {
                 $user = $this->getUser();
 

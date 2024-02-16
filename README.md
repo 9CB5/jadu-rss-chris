@@ -15,13 +15,14 @@ The project was made using the following technologies:
 3. Install all project dependencies by running the following commands:
     - ` composer install `
     - ` npm install `
-4. Create the database by running the following command:
+4. In the `env` file, enter the connection string of your MySQL database in the `DATABASE_URL` variable.
+5. Create the database by running the following command:
     - ` symfony console doctrine:database:create `
-4. Migrate the database by running the following command:
+6. Migrate the database by running::
     - ` symfony console doctrine:migrations:migrate `
-5. Seed the database with the command:
+7. Seed the database with:
     - ` symfony console doctrine:fixtures:load `
-6. Run the project locally with:
+8. Run the project locally with:
     - ` symfony serve -d `
 
 - (Optional) To apply Tailwind classes, run the following command: ``` npx tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --watch  ```
@@ -30,7 +31,7 @@ The project was made using the following technologies:
 # File structure
 This section provides an overview of the project's file structure, which may assist in understanding the project better.
 
-- `documents/` - Where README files are located to assist you in - - getting started and navigating around the app.
+- `documents/` - Where README files are located to assist you in getting started and navigating around the app.
 - `templates/` - Twig files for the front-end.
 - `public/` - Compiled js and css files, as well as images used on the app.
 - `assets/` - Uncompiled js and css files.
@@ -67,7 +68,7 @@ There is a "Delete" button next to the channel name near the top of the page. Pr
 - User: When a user deletes the channel, only the link between the user and the channel will be removed (i.e. delete from the pivot table called `user_link`).
 
 # Troubleshooting
-You may encounter some errors during the setup process and this section will show you the errors I came across and how I fixed them.
+You may encounter some errors during the setup process depending on how your environment is setup and in this section I will show you the errors I came across and how I fixed them.
 
 **Curl error 60: SSL cert problem: unable to get the local issuer certificate.**
 1. Download the `cacert.pem` file at https://curl.se/docs/caextract.html
@@ -84,35 +85,3 @@ You may encounter some errors during the setup process and this section will sho
     - extension=pdo_mysql
     - extension=mbstring
 2. Save the file.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
