@@ -30,13 +30,13 @@ The project was made using the following technologies:
 # File structure
 This section provides an overview of the project's file structure, which may assist in understanding the project better.
 
-`documents/` - Where README files are located to assist you in getting started and navigating around the app.
-`templates/` - Twig files for the front-end.
-`public/` - Compiled js and css files, as well as images used on the app.
-`assets/` - Uncompiled js and css files.
-`migrations/` - Migration files for the database.
-`src/` - PHP files for our backend such as controllers, entities, etc.
-`root/` - where the dependencies and config files are located.
+- `documents/` - Where README files are located to assist you in - - getting started and navigating around the app.
+- `templates/` - Twig files for the front-end.
+- `public/` - Compiled js and css files, as well as images used on the app.
+- `assets/` - Uncompiled js and css files.
+- `migrations/` - Migration files for the database.
+- `src/` - PHP files for our backend such as controllers, entities, etc.
+- `root/` - where the dependencies and config files are located.
 
 # Usage
 **Account**
