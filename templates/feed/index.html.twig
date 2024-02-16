@@ -1,0 +1,82 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Jadu | Feed
+{% endblock %}
+
+{% block body %}
+    <section
+        class="bg-gray-light bg-wave-2 bg-no-repeat bg-cover p-4 w-full flex flex-col items-start
+            {{ articles|length <= 0 ? 'items-center' : '' }}"
+    >
+        {% if articles|length <= 0 %}
+            <img
+                alt="reading woman"
+                class="mb-4 h-[33rem] w-[40rem]"
+                src={{ asset("images/reading-woman.svg") }}
+            >
+
+            <p class="font-bold mb-4 text-3xl text-purple-dark">It's empty in here...</p>
+
+            <p class="text-2xl text-center w-[36rem]">
+                Get started by selecting a channel on the sidebar or adding a new one on the top right.
+            </p>
+        {% else %}
+            {# Channel info #}
+            <div class="flex gap-4 items-center justify-start mb-4">
+                <h1 class="font-bold text-3xl">{{ link.name|title }}</h1>
+
+                <!-- Only admin can edit -->
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a
+                    href="/feed/edit/{{ link.id }}"
+                    class="bg-green-light cursor-pointer flex gap-2 items-center p-4 rounded-md
+                        text-center font-bold text-white hover:brightness-90"
+                    >
+                        <img
+                            alt="edit"
+                            src={{ asset("images/edit.svg") }}
+                        >
+
+                        <p class="hidden md:block">Edit</p>
+                    </a>
+                {% endif %}
+
+                <a
+                    href="/feed/delete/{{ link.id }}"
+                    class="bg-red cursor-pointer flex gap-2 items-center p-4 rounded-md
+                        text-center font-bold text-white hover:brightness-90"
+                >
+                    <img
+                        alt="bin"
+                        src={{ asset("images/bin.svg") }}
+                    >
+
+                    <p class="hidden md:block">{{ is_granted("ROLE_ADMIN") ? "Delete" : "Unsub" }}</p>
+                </a>
+            </div>
+
+            {# Channel articles #}
+            {% for article in articles %}
+                {% if article.link|default("") %}
+                    <a
+                        class="w-full"
+                        href="{{ article.link|default('') }}"
+                    >
+                        <div class="bg-white border-2 border-white p-4 rounded-md mb-4 shadow-xl w-full
+                            hover:border-purple-light"
+                        >
+                            <p class="font-bold text-2xl">{{ article.title|default('(Unknown Title)') }}</p>
+
+                            <p class="text-[12px] pb-2">
+                                Published on {{ article.date|default("")|date("d/m/Y g:i:sA") }} by {{ link.name }}
+                            </p>
+
+                            <p>{{ article.description|default('')|striptags|raw }}</p>
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </section>
+{% endblock %}

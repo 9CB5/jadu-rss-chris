@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+
+        <title>{% block title %}Jadu{% endblock %}</title>
+
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+        <!-- Stylesheet imports -->
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        <!-- JS imports -->
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-gray-light md:bg-white {{ app.user ? '' : 'bg-wave bg-no-repeat bg-cover' }}">
+
+        <!-- Flash messages -->
+        {% for message in app.flashes('success') %}
+            <figure class="bg-green-light slide-in-out flash p-2 text-center text-xl text-white w-full z-50">
+                {{ message }}
+            </figure>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <figure class="bg-red p-2 flash slide-in-out text-center text-xl text-white w-full z-50">
+                {{ message }}
+            </figure>
+        {% endfor %}
+
+        <!-- Header -->
+        {% if app.user %}
+            <header
+                class="bg-gradient-to-r from-purple-light to-purple-dark bg-purple-dark flex
+                    items-center h-20 p-4 justify-between text-white"
+            >
+
+                <div class="flex gap-4">
+                    <img
+                        alt="burger menu"
+                        class="burger cursor-pointer mb-4 pt-4"
+                        src={{ asset("images/burger.svg") }}
+                    >
+
+                    <img
+                        alt="jadu logo"
+                        class="mb-4 pt-4"
+                        src={{ asset("images/site-logo-white.svg") }}
+                    >
+                </div>
+
+                <!-- Login/logout link -->
+                <div class="flex gap-4 items-center">
+                    <a
+                        href="/{{ app.user ? 'logout' : '' }}"
+                        class="capitalize hover:underline"
+                    >
+                        {{ app.user ? 'logout' : 'login' }}
+                    </a>
+
+                    <a
+                        href="/feed/create"
+                        class="relative bg-green-light font-bold p-4 rounded-md
+                        hover:transition-none hover:brightness-90"
+                    >
+                        Add link
+                    </a>
+                </div>
+            </header>
+        {% endif %}
+
+        <div class="flex flex-col min-h-screen relative md:flex-row
+            {{ app.user ? '' : 'flex justify-center items-center'}}"
+        >
+            <!-- Sidebar -->
+            {% if app.user %}
+                <!-- Get the slug to determine currently active channel -->
+                {% set url =  app.request.uri %}
+                {% set parts = url|split('/') %}
+                {% set lastPart = parts|last %}
+                {% set activeChannel = lastPart|replace({"%20": " "}) %}
+
+                <!-- Channels -->
+                <nav class="bg-white flex gap-4 h-full overflow-auto p-4 sidebar md:flex-col">
+                    {% for channel in channels %}
+                        <a
+                            href="/feed/{{ channel.name }}"
+                            class="flex items-center gap-2 p-1 rounded-md
+                                {{ channel.name == activeChannel ? 'bg-green-light font-bold text-white' : 'hover:bg-gray-light'}}"
+                        >
+                            {% if channel.image_url is not null %}
+                                <img
+                                    class="min-h-10 rounded-full max-w-10 min-w-10"
+                                    alt="logo"
+                                    src="{{ channel.image_url }}"
+                                />
+                            {% else %}
+                                <img
+                                    class="min-h-10 rounded-full max-w-10 min-w-10"
+                                    alt="{{ channel.name }}"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg"
+                                />
+                            {% endif %}
+
+                            <p class="channel-name w-36">{{ channel.name|title }}</p>
+                        </a>
+                    {% endfor %}
+                </nav>
+            {% endif %}
+
+            <!-- Main content -->
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <!-- Footer -->
+        {% if app.user %}
+            <footer class="bg-black text-white flex flex-col items-center justify-center p-8">
+                <img
+                    alt="jadu logo"
+                    class="mb-4 pt-4"
+                    src={{ asset("images/site-logo-white.svg") }}
+                >
+
+                <p>Made by Christian Barcelona, {{ 'now' |date('Y') }}</p>
+            </footer>
+        {% endif %}
+    </body>
+</html>
+
+<style>
+    .bg-wave {
+        background-image: url("{{ asset('/images/login-wave.svg') }}");
+    }
+
+    .bg-transparent {
+        background-color: transparent;
+    }
+</style>

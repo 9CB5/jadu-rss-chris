@@ -1,0 +1,62 @@
+{% extends 'auth.html.twig' %}
+
+{% block title %}Jadu | Log in{% endblock %}
+
+{% block body %}
+    <form
+        method="post"
+    >
+        <!-- Email -->
+        <label class="font-bold" for="inputEmail">Email</label>
+        <input
+            autocomplete="email"
+            autofocus
+            class="block border-b-2 border-purple-dark mb-4 outline-none p-4 w-full text-purple-dark"
+            id="inputEmail"
+            name="email"
+            required
+            type="email"
+            value="{{ last_username }}"
+        >
+
+        <!-- Password -->
+        <label class="font-bold" for="inputPassword">Password</label>
+        <input
+            autocomplete="current-password"
+            class="block border-b-2 border-purple-dark mb-12 outline-none p-4 w-full text-purple-dark"
+            id="inputPassword"
+            name="password"
+            required
+            type="password"
+        >
+
+        <!-- Token -->
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
+
+        <!-- Error message -->
+        {% if error %}
+            <div class="font-bold text-red">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <!-- Sign in -->
+        <button
+            class="block bg-green-light mb-4 p-4 rounded-full text-white w-full hover:brightness-90"
+            type="submit"
+        >
+            Sign in
+        </button>
+
+        <p class="mb-4 text-center">No account? Register below</p>
+
+        <a
+            class="block bg-purple-dark p-4 rounded-full text-center text-white w-full hover:brightness-90"
+            href="/register"
+        >
+            Register
+        </a>
+    </form>
+{% endblock %}

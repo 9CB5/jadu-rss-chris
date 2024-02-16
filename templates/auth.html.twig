@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+
+        <title>{% block title %}Jadu{% endblock %}</title>
+
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+        <!-- Stylesheet imports -->
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        <!-- JS imports -->
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-gray-light bg-wave bg-no-repeat bg-cover flex justify-center items-center">
+        <!-- Flash messages -->
+        {% for message in app.flashes('success') %}
+            <figure class="bg-green-light slide-in-out flash p-2 text-center text-xl text-white w-full z-50">
+                {{ message }}
+            </figure>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <figure class="bg-red p-2 flash slide-in-out text-center text-xl text-white w-full z-50">
+                {{ message }}
+            </figure>
+        {% endfor %}
+
+        <aside class="bg-white h-[34rem] p-8 relative rounded-xl shadow-lg z-10 md:w-[30rem]">
+             <img
+                alt="jadu logo"
+                class="mb-4"
+                src={{ asset("images/site-logo.svg") }}
+            >
+
+            <img
+                alt="avatar"
+                class="absolute left-[420px] top-[-40px] hover:animate-spin"
+                src={{ asset("images/login.svg") }}
+            >
+
+            <!-- Main content -->
+            {% block body %}
+            {% endblock %}
+        </aside>
+    </body>
+</html>
+
+<style>
+    .bg-wave {
+        background-image: url("{{ asset('/images/login-wave.svg') }}");
+    }
+
+    .bg-transparent {
+        background-color: transparent;
+    }
+</style>

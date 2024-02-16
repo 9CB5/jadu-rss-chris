@@ -1,0 +1,31 @@
+{% extends 'auth.html.twig' %}
+
+{% block title %}Jadu | Register{% endblock %}
+
+{% block body %}
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <div class="font-bold text-red">
+            {{ form_errors(registrationForm) }}
+        </div>
+        <button
+            class="block bg-green-light mb-4 p-4 rounded-full text-white w-full hover:brightness-90"
+            type="submit"
+        >
+            Register
+        </button>
+
+        <a
+            class="block bg-purple-light mb-4 p-4 rounded-full text-center text-white w-full hover:brightness-90"
+            href="/"
+            type="submit"
+        >
+            Go back
+        </a>
+    {{ form_end(registrationForm) }}
+{% endblock %}
