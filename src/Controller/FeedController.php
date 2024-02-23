@@ -65,7 +65,7 @@ class FeedController extends AbstractController
         ]);
     }
 
-    #[Route("/feed/create", name: "create_feed")]
+    #[Route("/feed/create", name: "create_feed", methods:["POST", "PATCH"])]
     public function create(Request $request): Response
     {
         $link = new Link();
@@ -121,7 +121,7 @@ class FeedController extends AbstractController
         ]);
     }
 
-    #[Route("/feed/{name}", name: "feed", methods:["GET"])]
+    #[Route("/feed/{name}", name: "show_feed", methods:["GET"])]
     public function show($name): Response
     {
         $repository = $this->em->getRepository(Link::class);
@@ -162,7 +162,7 @@ class FeedController extends AbstractController
         ]);
     }
 
-    #[Route("/feed/edit/{id}", name: "edit_movie", methods: ["GET", "POST", "PATCH"])]
+    #[Route("/feed/edit/{id}", name: "edit_feed", methods: ["GET", "POST", "PATCH"])]
     public function edit($id, Request $request): Response
     {
         $repository = $this->em->getRepository(Link::class);
@@ -198,7 +198,7 @@ class FeedController extends AbstractController
         ]);
     }
 
-    #[Route("/feed/delete/{id}", name: "delete_movie", methods: ["GET", "DELETE"])]
+    #[Route("/feed/delete/{id}", name: "delete_feed", methods: ["GET", "DELETE"])]
     public function delete($id, Request $request): Response
     {
         $user = $this->getUser();
@@ -219,7 +219,7 @@ class FeedController extends AbstractController
         return $this->redirectToRoute("feeds");
     }
 
-    public function getChannels() {
+    public function getChannels(): Array {
         $channels = [];
 
         $httpClient = HttpClient::create([
